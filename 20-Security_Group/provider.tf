@@ -2,7 +2,7 @@ terraform {
     required_providers {
       aws = {
             source  = "hashicorp/aws"
-            version = "~>4.10"
+            version = "~>3.0"
       }
     }
     backend "s3" {
@@ -10,14 +10,23 @@ terraform {
         key     = "tra01/20-SecurityGroup.tfstate"
         region = "ap-northeast-2"
         encrypt = true
+        profile = "MFA"
     }
 }
 
+
 provider "aws" {
-    alias   = "def"
-    profile = "default"
     region  = "ap-northeast-2"
+    profile = "MFA"
 }
+
+provider "aws" {
+  alias  = "test"
+  profile = "TEST"
+  region  = "ap-northeast-2"
+}
+
+
 data "terraform_remote_state" "local" {
     backend = "s3"
     config = {
@@ -25,6 +34,7 @@ data "terraform_remote_state" "local" {
         region = "ap-northeast-2"
         key ="tra01/01-local.tfstate"
         encrypt = true
+        profile = "MFA"
     }
 }
 
@@ -36,5 +46,6 @@ data "terraform_remote_state" "VPC_Subnet" {
         region = "ap-northeast-2"
         key ="tra01/10-VPC_Subnet.tfstate"
         encrypt = true
+        profile = "MFA"
     }
 }

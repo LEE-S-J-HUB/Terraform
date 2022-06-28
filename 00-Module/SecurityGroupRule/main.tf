@@ -2,7 +2,7 @@ resource "aws_security_group_rule" "sgr_cidr_blocks" {
     for_each                    = {for sgr in var.sgrs : "${sgr.SecurityGroup}_${sgr.PortRange}_${sgr.Source}" => sgr if can(regex("[0-9]+.[0-9]+.[0-9]+.[0-9]+/[0-9]+", sgr.Source)) == true } 
     # provider                    = aws."${each.value.AccountName}"
     security_group_id           = var.scg_ids[each.value.SecurityGroup]
-    type                        = each.value.Type
+    type                        = "ingress"
     from_port                   = split("-", each.value.PortRange)[0]
     to_port                     = can(split("-", each.value.PortRange)[1]) ? split("-", each.value.PortRange)[1] : split("-", each.value.PortRange)[0]
     protocol                    = each.value.Protocol
@@ -17,7 +17,7 @@ resource "aws_security_group_rule" "sgr_source_security_group_id" {
     for_each                    = {for sgr in var.sgrs : "${sgr.SecurityGroup}_${sgr.PortRange}_${sgr.Source}" => sgr if can(regex("[0-9a-zA-Z]+-[0-9a-zA-Z]+-[0-9a-zA-Z]+-[0-9a-zA-Z]+-[0-9a-zA-Z]+", sgr.Source)) == true } 
     # provider                    = format("aws.%s", each.value.AccountName) 
     security_group_id           = var.scg_ids[each.value.SecurityGroup]
-    type                        = each.value.Type
+    type                        = "ingress"
     from_port                   = split("-", each.value.PortRange)[0]
     to_port                     = can(split("-", each.value.PortRange)[1]) ? split("-", each.value.PortRange)[1] : split("-", each.value.PortRange)[0]
     protocol                    = each.value.Protocol

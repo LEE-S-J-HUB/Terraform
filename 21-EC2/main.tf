@@ -80,14 +80,14 @@ module "create-ec2_instance" {
     source = "../00-Module/EC2"
     ec2 = [
         {
-            identifier              = format("${local.tags["bestion"].Name}-%s", "bestion")
+            identifier              = format("${local.tags["ec2"].Name}-%s", "bestion")
             ami                     = "ami-02de72c5dc79358c9"
             instance_type           = "t2.micro"
             availability_zone       = "ap-northeast-2a"
             subnet_id               = local.sub_ids["${lower(format("sub-an2-%s-%s-%s", local.project_code, local.Environment, "lb-01a"))}"]
             vpc_security_group_ids  = [local.scg_ids["${lower(format("scg-an2-%s-%s-%s", local.project_code, local.Environment, "bestion"))}"]]
             user_data               = local.ec2_default_user_data
-            tags                    = merge(local.tags["bestion"], { "Name" = format("${local.tags["bestion"].Name}-%s", "bestion") } )
+            tags                    = merge(local.tags["bestion"], { "Name" = format("${local.tags["ec2"].Name}-%s", "bestion") } )
             root_block_device = [
                 {
                     volume_type             = "gp2"

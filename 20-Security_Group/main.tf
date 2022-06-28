@@ -11,44 +11,38 @@ locals {
 
 module "SecurityGroup" {
     source          = "../00-Module/SecurityGroup"
+    providers = {
+      aws = aws.test
+     }
     scg             = [
         {
             identifier       = format("${local.tags["scg"].Name}-%s", "bestion")
             vpc_id           = local.vpc_id["${format("${local.tags["vpc"].Name}-%s", "pub")}"]
-            tags                = merge( local.tags["scg"],
-                {
-                    "Name" = format("${local.tags["scg"].Name}-%s", "bestion")
-                }
-            )
+            tags             = merge( local.tags["scg"], { "Name" = format("${local.tags["scg"].Name}-%s", "bestion") } )
         },
         {
             identifier       = format("${local.tags["scg"].Name}-%s", "web")
             vpc_id           = local.vpc_id["${format("${local.tags["vpc"].Name}-%s","pub")}"]
-            tags                = merge( local.tags["scg"],
-                {
-                    "Name" = format("${local.tags["scg"].Name}-%s", "web")
-                }
-            )
+            tags             = merge( local.tags["scg"], { "Name" = format("${local.tags["scg"].Name}-%s", "web") } )
         },
         {
             identifier       = format("${local.tags["scg"].Name}-%s", "xalb")
             vpc_id           = local.vpc_id["${format("${local.tags["vpc"].Name}-%s","pub")}"]
-            tags                = merge( local.tags["scg"],
-                {
-                    "Name" = format("${local.tags["scg"].Name}-%s", "xalb")
-                }
-            )
+            tags             = merge( local.tags["scg"], { "Name" = format("${local.tags["scg"].Name}-%s", "xalb") } )
         }
     ]
 }
 
 locals{
     scg_ids = module.SecurityGroup.scg_ids
-    security_group_list      = csvdecode(file("./security_Group_list.csv"))
+    security_group_list      = csvdecode(file("./Security_Group_list.csv"))
 }
 
 module "SecurityGroupRule" {
     source            = "../00-Module/SecurityGroupRule"
+    providers = {
+      aws = aws.test
+     }
     sgrs              = local.security_group_list 
     scg_ids           = local.scg_ids
 }

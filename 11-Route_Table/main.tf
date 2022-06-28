@@ -22,12 +22,12 @@ module "RouteTable" {
     rt      = [
         {
             rt_identifier       = format("${local.tags["rt"].Name}-%s", "lb")
-            vpc_id              = local.vpc_list["vpc-an2-tra01-dev-pub"]
+            vpc_id              = local.vpc_list["${format("${local.tags["vpc"].Name}-%s", "pub")}"]
             tags                = merge( local.tags["rt"], { "Name" = format("${local.tags["rt"].Name}-%s", "lb") } )
         },
         {
             rt_identifier       = format("${local.tags["rt"].Name}-%s", "web")
-            vpc_id              = local.vpc_list["vpc-an2-tra01-dev-pub"]
+            vpc_id              = local.vpc_list["${format("${local.tags["vpc"].Name}-%s", "pub")}"]
             tags                = merge( local.tags["rt"], { "Name" = format("${local.tags["rt"].Name}-%s", "web") } )
         }
     ]
@@ -36,19 +36,19 @@ module "RouteTable" {
     rta     = [
         {
             rt_identifier           = format("${local.tags["rt"].Name}-%s", "lb")
-            association_subent_id   = local.sub_list["sub-an2-tra01-dev-lb-01a"]
+            association_subent_id   = local.sub_list["${format("${local.tags["sub"].Name}-%s", "lb-01a")}"]
         },
         {
             rt_identifier           = format("${local.tags["rt"].Name}-%s", "lb")
-            association_subent_id   = local.sub_list["sub-an2-tra01-dev-lb-01c"]
+            association_subent_id   = local.sub_list["${format("${local.tags["sub"].Name}-%s", "lb-01c")}"]
         },
         {
             rt_identifier           = format("${local.tags["rt"].Name}-%s", "web")
-            association_subent_id   = local.sub_list["sub-an2-tra01-dev-web-01a"]
+            association_subent_id   = local.sub_list["${format("${local.tags["sub"].Name}-%s", "web-01a")}"]
         },
         {
             rt_identifier           = format("${local.tags["rt"].Name}-%s", "web")
-            association_subent_id   = local.sub_list["sub-an2-tra01-dev-web-01c"]
+            association_subent_id   = local.sub_list["${format("${local.tags["sub"].Name}-%s", "web-01c")}"]
         }
     ]
     # rtrs Description : Create Resource - route(Routing)
@@ -66,7 +66,7 @@ module "RouteTable" {
             route_table_identifier  = format("${local.tags["rt"].Name}-%s", "web")
             destination_cidr_block  = "0.0.0.0/0"
             target_resource         = merge(local.rtrs_target_resouce_id,
-                { gateway_id = local.ngw_list["${format("${local.tags["ngw"].Name}-%s", "lb-01a")}"] }
+                { nat_gateway_id = local.ngw_list["${format("${local.tags["ngw"].Name}-%s", "lb-01a")}"] }
             )
         }
     ]

@@ -3,7 +3,6 @@ variable "sgrs"{
     type = list(object({
         AccountName                 = string
         SecurityGroup               = string
-        Type                        = string
         Protocol                    = string
         PortRange                   = string
         Source                      = string
