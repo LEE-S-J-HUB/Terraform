@@ -13,3 +13,8 @@
 # output "ec2_eip" {
 #     value = {for k,ip in module.create-ec2_instance.eip : k => "${ip.public_ip}-${ip.private_ip}"}
 # }
+
+
+output "ec2"{
+    value = aws_instance.this
+}

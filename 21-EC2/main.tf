@@ -125,32 +125,30 @@ resource "aws_instance" "this" {
     tags                    = merge(local.tags["ec2"], { "Name" = format("${local.tags["ec2"].Name}-%s", "bestion") } )
     root_block_device {
         volume_type           = "gp3"
-        volume_size           = 100
-        delete_on_termination = false
-        # delete_on_termination = true
-        kms_key_id            = ""
-        encrypted             = true
-        tags = merge(local.tags["ebs"], { "Name" = format("${local.tags["ebs"].Name}-%s", "bestion") } )
-    }
-    ebs_block_device {
-        device_name = "/dev/sdb"
-        volume_type           = "gp2"
-        volume_size           = 2000
+        volume_size           = 200
         delete_on_termination = false
         kms_key_id            = ""
         encrypted             = false
+        tags = merge(local.tags["ebs"], { "Name" = format("${local.tags["ebs"].Name}-%s", "bestion") } )
+    }
+    ebs_block_device {
+        device_name           = "/dev/sdb"
+        volume_type           = "gp2"
+        volume_size           = 300
+        delete_on_termination = true
+        kms_key_id            = ""
+        encrypted             = true
         tags = merge(local.tags["ebs"], { "Name" = format("${local.tags["ebs"].Name}-%s", "bestion2"), "Test" = "LSJ" } )
     }
-    # root_block_device = [
-    #     {
-    #         volume_type             = "gp2"
-    #         volume_size             = 50
-    #         delete_on_termination   = true
-    #         encrypted               = true
-    #         kms_key_id              = ""
-    #         tags = merge(local.tags["ebs"], { "Name" = format("${local.tags["ebs"].Name}-%s", "bestion") } )
-    #     }
-    # ]
+    ebs_block_device {
+        device_name           = "/dev/sdc"
+        volume_type           = "gp2"
+        volume_size           = 300
+        delete_on_termination = true
+        kms_key_id            = ""
+        encrypted             = true
+        tags = merge(local.tags["ebs"], { "Name" = format("${local.tags["ebs"].Name}-%s", "bestion2"), "Test" = "LSJA" } )
+    }
     lifecycle {
         ignore_changes = [ ami ]
     }

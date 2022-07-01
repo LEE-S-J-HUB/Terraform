@@ -79,16 +79,16 @@ module "VPC_Subnet" {
     # eip Key : eip_identifier ( eip_tags["Name"])
     ngws    = [
         {
-            sub_identifier          = format("${local.tags["sub"].Name}-%s", "lb-01a")
-            ngw_identifier          = format("${local.tags["ngw"].Name}-%s", "lb-01a")
-            eip_identifier          = format("${local.tags["eip"].Name}-%s", "ngw")
-            ngw_tags                = merge( local.tags["ngw"], { "Name" = format("${local.tags["ngw"].Name}-%s", "lb-01a") } )
-            eip_tags                = merge( local.tags["eip"], { "Name" = format("${local.tags["eip"].Name}-%s", "ngw") } )
-            # sub_identifier          = null
-            # ngw_identifier          = null
-            # eip_identifier          = null
-            # ngw_tags                = null
-            # eip_tags                = null
+            # sub_identifier          = format("${local.tags["sub"].Name}-%s", "lb-01a")
+            # ngw_identifier          = format("${local.tags["ngw"].Name}-%s", "lb-01a")
+            # eip_identifier          = format("${local.tags["eip"].Name}-%s", "ngw")
+            # ngw_tags                = merge( local.tags["ngw"], { "Name" = format("${local.tags["ngw"].Name}-%s", "lb-01a") } )
+            # eip_tags                = merge( local.tags["eip"], { "Name" = format("${local.tags["eip"].Name}-%s", "ngw") } )
+            sub_identifier          = null
+            ngw_identifier          = null
+            eip_identifier          = null
+            ngw_tags                = null
+            eip_tags                = null
         }
     ]
 }
