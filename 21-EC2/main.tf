@@ -131,24 +131,6 @@ resource "aws_instance" "this" {
         encrypted             = false
         tags = merge(local.tags["ebs"], { "Name" = format("${local.tags["ebs"].Name}-%s", "bestion") } )
     }
-    ebs_block_device {
-        device_name           = "/dev/sdb"
-        volume_type           = "gp2"
-        volume_size           = 300
-        delete_on_termination = true
-        kms_key_id            = ""
-        encrypted             = true
-        tags = merge(local.tags["ebs"], { "Name" = format("${local.tags["ebs"].Name}-%s", "bestion2"), "Test" = "LSJ" } )
-    }
-    ebs_block_device {
-        device_name           = "/dev/sdc"
-        volume_type           = "gp2"
-        volume_size           = 300
-        delete_on_termination = true
-        kms_key_id            = ""
-        encrypted             = true
-        tags = merge(local.tags["ebs"], { "Name" = format("${local.tags["ebs"].Name}-%s", "bestion2"), "Test" = "LSJA" } )
-    }
     lifecycle {
         ignore_changes = [ ami ]
     }
@@ -157,14 +139,24 @@ resource "aws_instance" "this" {
 resource "aws_ebs_volume" "this" {
     provider = aws.test
     availability_zone = "ap-northeast-2a"
-    size = 300
-    type = "gp2"
-    kms_key_id        = ""
-    encrypted         = true
-    tags = {
-            Name      = "mysql"
-            Role      = "db"
-            Terraform = "true"
-            FS        = "xfs"
+    dynamic "volume"{ 
+        
+      size = 300
+      type = "gp2"
+      kms_key_id        = ""
+      encrypted         = true
+      tags = {
+        Name      = "mysql"
+        Role      = "db"
+        Terraform = "true"
+        FS        = "xfs"
+      }     
     }
+}
+
+resource "aws_volume_attachment" "this" {
+    provider = aws.test
+    device_name = "/dev/xvdb"
+    volume_id = aws_ebs_volume.this.id
+    instance_id = aws_instance.this.id
 }
