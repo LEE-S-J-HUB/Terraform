@@ -17,3 +17,7 @@ output "ngw_ids" {
 output "ngw_eip_ids" {
     value = { for k,eip in module.VPC_Subnet.ngw_eip : k => eip.id }
 }
+
+output "sub_ips" {
+    value = { for k,sub in module.VPC_Subnet.sub : k => sub.cidr_block }
+}

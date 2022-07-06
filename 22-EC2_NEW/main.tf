@@ -72,6 +72,7 @@ module "create-ec2_instance" {
             vpc_security_group_ids  = [local.scg_ids["${format("${local.tags["scg"].Name}-%s", "bestion")}"]]
             user_data               = local.ec2_default_user_data
             tags                    = merge(local.tags["ec2"], { "Name" = format("${local.tags["ec2"].Name}-%s", "bestion") } )
+            private_ip              = ""
             root_block_device = [
                 {
                     volume_type             = "gp2"

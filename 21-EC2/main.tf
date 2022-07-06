@@ -139,7 +139,6 @@ resource "aws_instance" "this" {
 resource "aws_ebs_volume" "this" {
     provider = aws.test
     availability_zone = "ap-northeast-2a"
-    dynamic "volume"{ 
         
       size = 300
       type = "gp2"
@@ -151,7 +150,6 @@ resource "aws_ebs_volume" "this" {
         Terraform = "true"
         FS        = "xfs"
       }     
-    }
 }
 
 resource "aws_volume_attachment" "this" {

@@ -7,6 +7,7 @@ variable "ec2" {
         subnet_id                   = string
         vpc_security_group_ids      = list(string)
         user_data                   = string
+        private_ip                  = string
         tags                        = map(string)
         root_block_device           = list(any)
         ebs_block_device            = list(any)

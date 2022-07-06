@@ -5,6 +5,7 @@ resource "aws_instance" "this" {
     subnet_id                     = each.value.subnet_id
     availability_zone             = each.value.availability_zone
     vpc_security_group_ids        = each.value.vpc_security_group_ids
+    private_ip                    = each.value.private_ip
     user_data                     = each.value.user_data
     dynamic "root_block_device" {
         for_each                  = each.value.root_block_device
@@ -21,7 +22,7 @@ resource "aws_instance" "this" {
         }
     }
     dynamic "ebs_block_device" {
-        for_each                  = {for key in each.value.ebs_block_device : "${each.value.identifier}_${key.device_name}" => key }
+        for_each                  = {for key in each.value.ebs_block_device : "${each.value.identifier}_${key.device_name}" => key if length(each.value.ebs_block_device) != 0 }
         iterator                  = ebs_block_device
         content {
             device_name           = lookup(ebs_block_device.value, "device_name", null)
@@ -33,14 +34,6 @@ resource "aws_instance" "this" {
             volume_type           = lookup(ebs_block_device.value, "volume_type", null)
             throughput            = lookup(ebs_block_device.value, "throughput", null)
             tags                  = lookup(ebs_block_device.value, "tags", null)
-            # delete_on_termination = lookup(element(ebs_block_device, count.index), "delete_on_termination", null)
-            # encrypted             = lookup(element(ebs_block_device, count.index), "encrypted", null)
-            # iops                  = lookup(element(ebs_block_device, count.index), "iops", null)
-            # kms_key_id            = lookup(element(ebs_block_device, count.index), "kms_key_id", null)
-            # volume_size           = lookup(element(ebs_block_device, count.index), "volume_size", null)
-            # volume_type           = lookup(element(ebs_block_device, count.index), "volume_type", null)
-            # throughput            = lookup(element(ebs_block_device, count.index), "throughput", null)
-            # tags                  = lookup(element(ebs_block_device, count.index), "tags", null)
         }
     }
     dynamic "launch_template" {
