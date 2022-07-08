@@ -77,6 +77,7 @@ module "create-ec2_instance" {
                 {
                     volume_type             = "gp2"
                     volume_size             = 50
+                    iops                    = null
                     delete_on_termination   = true
                     encrypted               = true
                     kms_key_id              = ""
@@ -88,6 +89,7 @@ module "create-ec2_instance" {
                     device_name             = "/dev/xvdb"
                     volume_type             = "gp2"
                     volume_size             = 50
+                    iops                    = null
                     delete_on_termination   = true
                     encrypted               = true
                     kms_key_id              = ""
@@ -97,6 +99,7 @@ module "create-ec2_instance" {
                     device_name             = "/dev/xvdc"
                     volume_type             = "gp2"
                     volume_size             = 50
+                    iops                    = null
                     delete_on_termination   = true
                     encrypted               = true
                     kms_key_id              = ""

@@ -1,7 +1,7 @@
 terraform {
     required_providers {
       aws = {
-          version = "~>4.10"
+          version = "~>3.0"
       }
     }
     backend "s3" {
@@ -9,13 +9,21 @@ terraform {
         key     = "tra01/25-LB_TargetGroup.tfstate"
         region = "ap-northeast-2"
         encrypt = true
+        profile = "MFA"
     }
 }
 
 provider "aws" {
-    profile = "default"
     region  = "ap-northeast-2"
+    profile = "MFA"
 }
+
+provider "aws" {
+  alias  = "test"
+  profile = "TEST"
+  region  = "ap-northeast-2"
+}
+
 
 data "terraform_remote_state" "local" {
     backend = "s3"
@@ -24,6 +32,7 @@ data "terraform_remote_state" "local" {
         region = "ap-northeast-2"
         key ="tra01/01-local.tfstate"
         encrypt = true
+        profile = "MFA"
     }
 }
 
@@ -34,6 +43,7 @@ data "terraform_remote_state" "VPC_Subnet" {
         region = "ap-northeast-2"
         key ="tra01/10-VPC_Subnet.tfstate"
         encrypt = true
+        profile = "MFA"
     }
 }
 
@@ -44,5 +54,6 @@ data "terraform_remote_state" "EC2" {
         region = "ap-northeast-2"
         key ="tra01/21-EC2.tfstate"
         encrypt = true
+        profile = "MFA"
     }
 }

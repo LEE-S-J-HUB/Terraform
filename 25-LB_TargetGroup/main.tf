@@ -25,55 +25,26 @@ locals {
             "protocol"              = "TCP"             # 
             "timeout"               = 10                # 
             "unhealthy_threshold"   = 3                 # 
-            
         }
     }
 }
 
 module "lb_TargetGroup" {
     source = "../00-Module/lb_TargetGroup"
+    providers = {
+      aws = aws.test
+     }
     # resource : aws_lb_target_group
     # resource creation method : for_each
     # key : name
+    # Main Value = "proocol-port-target_type"
     tgs     = [
         {
-            name                    = format("${local.tags["tg"].Name}-%s", "web")
-            port                    = 80
-            protocol                = "HTTP"
-            target_type             = "instance"
-            vpc_id                  = local.vpc_ids["${format("${local.tags["vpc"].Name}-%s", "pub")}"]
-        },
-        {
-            name                    = format("${local.tags["tg"].Name}-%s", "web2")
-            port                    = 80
-            protocol                = "TCP"
-            target_type             = "instance"
-            vpc_id                  = local.vpc_ids["${format("${local.tags["vpc"].Name}-%s", "pub")}"]
-        },
-        {
-            name                    = format("${local.tags["tg"].Name}-%s", "web3")
-            port                    = 80
-            protocol                = "UDP"
-            target_type             = "instance"
-            vpc_id                  = local.vpc_ids["${format("${local.tags["vpc"].Name}-%s", "pub")}"]
-        },
-        # {
-        #     name                    = format("${local.tags["tg"].Name}-%s", "web2")
-        #     port                    = 80
-        #     protocol                = "TCP"
-        #     target_type             = "instance"
-        #     vpc_id                  = local.vpc_ids["${format("${local.tags["vpc"].Name}-%s", "pub")}"]
-        # }
-    ]
-
-    # resource : aws_lb_target_group_attachment
-    # resource creation method : for_each
-    # key : {target_group_identifier}_{target_id}_{port}
-    tgas    = [
-        {
-            target_group_identifier = format("${local.tags["tg"].Name}-%s", "web")
-            target_id               = local.ec2_ids[format("${local.tags["ec2"].Name}-%s", "web")]
-            port                    = 80
+            name            = format("${local.tags["tg"].Name}-%s", "web")
+            Main_Value      = "HTTP-80-instance"
+            vpc_id          = local.vpc_ids["${format("${local.tags["vpc"].Name}-%s", "pub")}"]
+            target_id       = [local.ec2_ids[format("${local.tags["ec2"].Name}-%s", "web")]]
+            port            = 80
         }
     ]
 }

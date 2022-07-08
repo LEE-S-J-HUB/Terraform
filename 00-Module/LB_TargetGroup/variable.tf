@@ -1,6 +1,7 @@
 variable "tgs" {
     type = list(object({
         name        = string
+        Main_Value  = list(string, number, string)
         port        = number
         protocol    = string
         target_type = string
