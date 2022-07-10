@@ -91,7 +91,7 @@ module "create-ec2_instance" {
                     volume_size             = 50
                     iops                    = null
                     delete_on_termination   = true
-                    encrypted               = true
+                    encrypted               = false
                     kms_key_id              = ""
                     tags = merge(local.tags["ebs"], { "Name" = format("${local.tags["ebs"].Name}-%s", "bestion") } )
                 },
@@ -101,7 +101,7 @@ module "create-ec2_instance" {
                     volume_size             = 50
                     iops                    = null
                     delete_on_termination   = true
-                    encrypted               = true
+                    encrypted               = false
                     kms_key_id              = ""
                     tags = merge(local.tags["ebs"], { "Name" = format("${local.tags["ebs"].Name}-%s", "bestion") } )
                 }

@@ -19,7 +19,7 @@ module "VPC_Subnet" {
             enable_dns_hostnames    = true
             enable_dns_support      = true
             instance_tenancy        = "default"
-            vpc_tags                = merge( local.tags["vpc"], { "Name" = format("${local.tags["vpc"].Name}-%s", "pub") } )
+            vpc_tags                = merge( local.tags["vpc"], { "Name" = format("${local.tags["vpc"].Name}-%s", "pub") }  )
         },
         {
             vpc_identifier          = format("${local.tags["vpc"].Name}-%s", "pri")

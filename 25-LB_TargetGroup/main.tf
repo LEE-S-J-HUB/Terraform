@@ -35,8 +35,7 @@ module "lb_TargetGroup" {
       aws = aws.test
      }
     # resource : aws_lb_target_group
-    # resource creation method : for_each
-    # key : name
+    # resource creation method : for_each | key : name
     # Main Value = "proocol-port-target_type"
     tgs     = [
         {
