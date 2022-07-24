@@ -3,7 +3,8 @@ variable "alb" {
         name                        = string
         internal                    = bool
         security_groups             = list(string)
-        subnets                     = list(string)
+        # subnets                     = list(string)
+        subnet_mapping              = list(map(string))
         enable_deletion_protection  = bool
         tags                        = map(string)
     }))
@@ -13,7 +14,8 @@ variable "nlb" {
     type = list(object({
         name                        = string
         internal                    = bool
-        subnets                     = list(string)
+        # subnets                     = list(string)
+        subnet_mapping              = list(map(string))
         enable_deletion_protection  = bool
         tags                        = map(string)
     }))
